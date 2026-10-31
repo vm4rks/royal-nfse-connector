@@ -1,0 +1,15 @@
+# Somente homologação. O plano gratuito não é uma recomendação para produção.
+services:
+  - type: web
+    name: royal-nfse-connector
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      - key: SUPABASE_URL
+        value: https://lvjctawcjtbbrdqdvefi.supabase.co
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://royal-planner-2027-pet.mapleorbit128.chatgpt.site
