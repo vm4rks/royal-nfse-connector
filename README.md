@@ -17,3 +17,7 @@ O Free é somente para testes e tem suspensão por inatividade e limites de uso.
 `npm test` gera certificado fictício descartável e testa certificado, autenticação, CORS e ausência de transmissão. Não usa A1 real ou emite nota. Depois de publicar, conferir `/healthz` 200, acesso administrativo, bloqueio da equipe/anônimo e certificado pendente; depois instalar o A1 privadamente e testar homologação.
 
 A geração, assinatura, numeração, transmissão, reconciliação e guarda das notas ainda precisam ser implementadas e validadas. O cadastro fiscal e os códigos dos serviços precisam de conferência pelo responsável da empresa.
+
+## Endpoint de parâmetros municipais
+
+A consulta somente de leitura usa `GET https://adn.producaorestrita.nfse.gov.br/parametrizacao/parametros_municipais/{codigoMunicipio}/convenio`, com mTLS e validação da cadeia do servidor. O host e o método são fixos, não fornecidos pelo navegador; não há redirecionamento. A API de parâmetros é separada da Sefin Nacional. Referência oficial consultada em 01/11/2026: https://www.gov.br/nfse/pt-br/biblioteca/documentacao-tecnica/apis-prod-restrita-e-producao (Parâmetros municipais — Produção restrita). Esta correção substitui a antiga consulta no caminho SefinNacional, que retornava 404.
