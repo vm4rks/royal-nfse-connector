@@ -5,7 +5,7 @@ import {loadCertificate} from './certificate.mjs';
 const PROJECT='https://lvjctawcjtbbrdqdvefi.supabase.co';
 const ROYAL='https://royal-planner-2027-pet.mapleorbit128.chatgpt.site';
 export const GOV_TEST='https://adn.producaorestrita.nfse.gov.br';
-export function municipalQueryUrl(code){if(!/^\d{7}$/.test(code))throw Error('Código IBGE inválido.');return new URL(`/parametrizacao/parametros_municipais/${code}/convenio`,GOV_TEST);}
+export function municipalQueryUrl(code){if(!/^\d{7}$/.test(code))throw Error('Código IBGE inválido.');return new URL(`/parametrizacao/${code}/convenio`,GOV_TEST);}
 export function govErrorDetails(body,contentType){let data;try{data=JSON.parse(body);}catch{return {json:false};}const errors=data?.erros??data?.Erros??data?.errors??[];const values=[data?.codigo,data?.code,...(Array.isArray(errors)?errors:[]).map(e=>e?.codigo??e?.Codigo??e?.code)];return {json:true,api_codes:[...new Set(values.filter(v=>typeof v==='string'&&/^[A-Za-z][A-Za-z0-9_]{0,39}$/.test(v)))].slice(0,5)};}
 async function supabaseJson(env,path,token,options={}){if(env.SUPABASE_URL!==PROJECT||!env.SUPABASE_ANON_KEY)throw Error('Configuração do Supabase da Royal pendente.');const r=await fetch(PROJECT+path,{...options,headers:{apikey:env.SUPABASE_ANON_KEY,Authorization:'Bearer '+token,'Content-Type':'application/json'},signal:AbortSignal.timeout(12000),redirect:'error'});if(!r.ok)throw Error('O Supabase não autorizou a consulta fiscal.');return r.json();}
 async function authorize(env,token){await supabaseJson(env,'/auth/v1/user',token);const profile=await supabaseJson(env,'/rest/v1/rpc/current_access',token,{method:'POST',body:'{}'});if(!profile?.active||profile.role!=='admin')return false;return true;}
